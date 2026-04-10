@@ -13,7 +13,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:#1a2332;color:#fff;min-height:100vh;overflow-x:hidden}
 
-body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.03;
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.02;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 .bg-scene{position:fixed;inset:0;z-index:0;overflow:hidden;
@@ -21,19 +21,19 @@ background:linear-gradient(170deg,#2a3a4e 0%,#354f5e 30%,#3d6355 55%,#2a4a3d 80%
 
 
 
-.bg-scene .mist{position:absolute;width:200%;height:200%;
+.bg-scene .mist{position:absolute;width:150%;height:150%;
 background:radial-gradient(ellipse at 30% 50%,rgba(255,255,255,.12) 0%,transparent 60%);
-animation:drift 25s ease-in-out infinite alternate}
-.bg-scene .mist:nth-child(3){background:radial-gradient(ellipse at 70% 30%,rgba(255,255,255,.08) 0%,transparent 50%);animation:drift2 30s ease-in-out infinite alternate}
-.bg-scene .mist:nth-child(4){background:radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.07) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate-reverse}
+animation:drift 25s ease-in-out infinite alternate;will-change:transform;transform:translate3d(0,0,0)}
+.bg-scene .mist:nth-child(2){background:radial-gradient(ellipse at 70% 30%,rgba(255,255,255,.08) 0%,transparent 50%);animation:drift2 30s ease-in-out infinite alternate}
+.bg-scene .mist:nth-child(3){background:radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.07) 0%,transparent 50%);animation:drift 20s ease-in-out infinite alternate-reverse}
 @keyframes drift{0%{transform:translate(-10%,-10%)}100%{transform:translate(10%,10%)}}
 @keyframes drift2{0%{transform:translate(10%,5%)}100%{transform:translate(-10%,-5%)}}
 
-.leaf{position:absolute;width:8px;height:8px;background:rgba(255,255,255,.1);border-radius:0 50% 0 50%;animation:fall linear infinite;opacity:0}
+.leaf{position:absolute;width:8px;height:8px;background:rgba(255,255,255,.1);border-radius:0 50% 0 50%;animation:fall linear infinite;opacity:0;will-change:transform}
 .leaf:nth-child(odd){border-radius:50%;background:rgba(184,118,62,.06)}
-@keyframes fall{0%{transform:translateY(-20px) rotate(0deg) scale(.8);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(100vh) rotate(720deg) scale(1.2);opacity:0}}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}
 
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:orbFloat 20s ease-in-out infinite alternate}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:orbFloat 20s ease-in-out infinite alternate;will-change:transform}
 .orb:nth-child(4){width:300px;height:300px;top:10%;left:5%;background:rgba(61,99,85,.15)}
 .orb:nth-child(5){width:250px;height:250px;bottom:15%;right:8%;background:rgba(184,118,62,.1);animation-delay:-10s;animation-duration:25s}
 .orb:nth-child(6){width:200px;height:200px;top:50%;left:60%;background:rgba(255,255,255,.04);animation-delay:-5s;animation-duration:18s}
@@ -42,15 +42,11 @@ animation:drift 25s ease-in-out infinite alternate}
 .page{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:3rem 2rem;text-align:center}
 
 .page::before{content:'';position:fixed;inset:1.5rem;border-radius:6px;pointer-events:none;z-index:2;
-border:1px solid transparent;
-background:linear-gradient(#0000,#0000) padding-box,conic-gradient(from var(--border-angle,0deg),rgba(255,255,255,.03) 0%,rgba(255,255,255,.12) 25%,rgba(184,118,62,.15) 50%,rgba(255,255,255,.03) 75%,rgba(255,255,255,.12) 100%) border-box;
-animation:borderSpin 12s linear infinite}
-@property --border-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
-@keyframes borderSpin{to{--border-angle:360deg}}
+border:1px solid rgba(255,255,255,.08)}
 
 .logo-wrap{margin-bottom:2rem;animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) both}
 .logo-wrap img{max-width:min(420px,85vw);height:auto;
-filter:drop-shadow(0 0 60px rgba(255,255,255,.15)) drop-shadow(0 4px 30px rgba(0,0,0,.2));
+filter:drop-shadow(0 0 40px rgba(255,255,255,.12)) drop-shadow(0 4px 20px rgba(0,0,0,.15));
 animation:logoFloat 6s ease-in-out infinite}
 @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
@@ -113,11 +109,7 @@ animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) 1.5s both}
 
 .footer{position:absolute;bottom:1.5rem;left:0;right:0;text-align:center;font-size:.65rem;color:rgba(255,255,255,.2);letter-spacing:.08em;animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) 1.3s both}
 
-.shimmer-line{position:fixed;left:0;right:0;height:1px;z-index:2;pointer-events:none;
-background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.06) 50%,transparent 100%);animation:shimmer 4s ease-in-out infinite}
-.shimmer-line:nth-child(1){top:25%;animation-delay:0s}
-.shimmer-line:nth-child(2){top:75%;animation-delay:2s}
-@keyframes shimmer{0%,100%{opacity:0;transform:scaleX(.3)}50%{opacity:1;transform:scaleX(1)}}
+
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
 
@@ -142,9 +134,6 @@ background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.06) 50%,transp
   <div class="orb"></div>
   <div class="orb"></div>
 </div>
-
-<div class="shimmer-line"></div>
-<div class="shimmer-line"></div>
 
 <div class="page">
   <div class="logo-wrap">
@@ -201,7 +190,7 @@ background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.06) 50%,transp
 
 <script>
 const scene=document.querySelector('.bg-scene');
-for(let i=0;i<20;i++){
+for(let i=0;i<12;i++){
   const leaf=document.createElement('div');
   leaf.classList.add('leaf');
   leaf.style.left=Math.random()*100+'%';
