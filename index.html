@@ -19,10 +19,7 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='htt
 .bg-scene{position:fixed;inset:0;z-index:0;overflow:hidden;
 background:linear-gradient(170deg,#2a3a4e 0%,#354f5e 30%,#3d6355 55%,#2a4a3d 80%,#1e3028 100%)}
 
-.aurora{position:absolute;width:140%;height:140%;top:-20%;left:-20%;
-background:conic-gradient(from 0deg at 50% 50%,transparent 0deg,rgba(255,255,255,.04) 40deg,transparent 80deg,rgba(184,118,62,.04) 160deg,transparent 200deg,rgba(61,99,85,.06) 280deg,transparent 360deg);
-animation:auroraRotate 40s linear infinite}
-@keyframes auroraRotate{to{transform:rotate(360deg)}}
+
 
 .bg-scene .mist{position:absolute;width:200%;height:200%;
 background:radial-gradient(ellipse at 30% 50%,rgba(255,255,255,.12) 0%,transparent 60%);
@@ -37,9 +34,9 @@ animation:drift 25s ease-in-out infinite alternate}
 @keyframes fall{0%{transform:translateY(-20px) rotate(0deg) scale(.8);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(100vh) rotate(720deg) scale(1.2);opacity:0}}
 
 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5;animation:orbFloat 20s ease-in-out infinite alternate}
-.orb:nth-child(5){width:300px;height:300px;top:10%;left:5%;background:rgba(61,99,85,.15)}
-.orb:nth-child(6){width:250px;height:250px;bottom:15%;right:8%;background:rgba(184,118,62,.1);animation-delay:-10s;animation-duration:25s}
-.orb:nth-child(7){width:200px;height:200px;top:50%;left:60%;background:rgba(255,255,255,.04);animation-delay:-5s;animation-duration:18s}
+.orb:nth-child(4){width:300px;height:300px;top:10%;left:5%;background:rgba(61,99,85,.15)}
+.orb:nth-child(5){width:250px;height:250px;bottom:15%;right:8%;background:rgba(184,118,62,.1);animation-delay:-10s;animation-duration:25s}
+.orb:nth-child(6){width:200px;height:200px;top:50%;left:60%;background:rgba(255,255,255,.04);animation-delay:-5s;animation-duration:18s}
 @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.1)}66%{transform:translate(-20px,30px) scale(.9)}100%{transform:translate(10px,-10px) scale(1.05)}}
 
 .page{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:3rem 2rem;text-align:center}
@@ -96,9 +93,15 @@ animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) .9s both;transition:border-color 
 .social-links{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
 .social-link{display:inline-flex;align-items:center;gap:.45rem;padding:.5rem 1rem;border-radius:100px;
 border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:rgba(255,255,255,.6);
-text-decoration:none;font-size:.75rem;letter-spacing:.05em;transition:all .4s cubic-bezier(.16,1,.3,1)}
-.social-link:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.2)}
-.social-link.whatsapp-link:hover{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.35);color:#25d366}
+text-decoration:none;font-size:.75rem;letter-spacing:.05em;transition:all .4s cubic-bezier(.16,1,.3,1);
+animation:zoomPulse 3s ease-in-out infinite}
+.social-link:nth-child(1){animation-delay:0s}
+.social-link:nth-child(2){animation-delay:.5s}
+.social-link:nth-child(3){animation-delay:1s}
+.social-link:nth-child(4){animation-delay:1.5s}
+@keyframes zoomPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.social-link:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25);transform:scale(1.12);box-shadow:0 8px 25px rgba(0,0,0,.2);animation:none}
+.social-link.whatsapp-link:hover{background:rgba(37,211,102,.12);border-color:rgba(37,211,102,.35);color:#25d366;transform:scale(1.12);animation:none}
 
 .whatsapp-float{position:fixed;bottom:2rem;right:2rem;z-index:100;width:56px;height:56px;border-radius:50%;
 background:#25d366;display:flex;align-items:center;justify-content:center;
@@ -132,7 +135,6 @@ background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.06) 50%,transp
 <body>
 
 <div class="bg-scene">
-  <div class="aurora"></div>
   <div class="mist"></div>
   <div class="mist"></div>
   <div class="mist"></div>
