@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.bg/**'   # only runs when something changes in .bg/
+  workflow_dispatch:   # manual trigger from GitHub Actions tab
 
 jobs:
   update-images:
