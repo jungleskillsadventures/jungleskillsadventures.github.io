@@ -1,0 +1,58 @@
+name: Update background images
+
+on:
+  push:
+    paths:
+      - '.bg/**'   # only runs when something changes in .bg/
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Scan .bg/ and update index.html
+        run: |
+          python3 << 'EOF'
+          import re, pathlib, sys
+
+          bg = pathlib.Path('.bg')
+          exts = {'.jpg', '.jpeg', '.png', '.webp'}
+          images = sorted(
+              f'.bg/{p.name}'
+              for p in bg.iterdir()
+              if p.is_file() and p.suffix.lower() in exts
+          )
+
+          if not images:
+              print('No images found in .bg/ — skipping.')
+              sys.exit(0)
+
+          lines = ['  /* AUTO-GENERATED — do not edit between these markers */']
+          lines.append('  /* BG_IMAGES_START */')
+          lines.append('  const imgs = [')
+          for img in images:
+              lines.append(f"    '{img}',")
+          lines.append('  ];')
+          lines.append('  /* BG_IMAGES_END */')
+          new_block = '\n'.join(lines)
+
+          html = pathlib.Path('index.html').read_text()
+          pattern = r'/\* AUTO-GENERATED.*?/\* BG_IMAGES_END \*/'
+          updated = re.sub(pattern, new_block, html, flags=re.DOTALL)
+          pathlib.Path('index.html').write_text(updated)
+          print(f'index.html updated with {len(images)} image(s).')
+          EOF
+
+      - name: Commit updated index.html
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet \
+            && echo "No changes to commit." \
+            || (git commit -m "chore: auto-update background image list" && git push)
