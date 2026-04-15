@@ -908,13 +908,16 @@ h1 .subtitle.fade-out { opacity: 0; transform: translateY(5px) }
 (function initBgSlideshow() {
   /* Images live in the .bg/ folder at repo root.
      Order is shuffled on each page load so no two visits look the same. */
+  /* AUTO-GENERATED — do not edit between these markers */
+  /* BG_IMAGES_START */
   const imgs = [
-    '.bg/tree_savanna_africa_408057_1920x1080.jpg', // lone acacia, misty plains
-    '.bg/1286215.jpg',   // zebras at sunset, deep orange sky
-    '.bg/1286310.jpg',   // zebras at watering hole, red earth
-    '.bg/2113686.jpg',   // elephant herd below Kilimanjaro
-    '.bg/2113713.jpg',   // giraffe in dappled forest light
+    '.bg/tree_savanna_africa_408057_1920x1080.jpg',
+    '.bg/1286215.jpg',
+    '.bg/1286310.jpg',
+    '.bg/2113686.jpg',
+    '.bg/2113713.jpg',
   ];
+  /* BG_IMAGES_END */
 
   /* Fisher-Yates shuffle — genuine randomness, not a fake "randomised" loop */
   for (let i = imgs.length - 1; i > 0; i--) {
