@@ -6,725 +6,401 @@
 <title>Jungle Skills &amp; Adventures — Coming Soon</title>
 <meta name="description" content="Jungle Skills & Adventures — Your gateway to unforgettable safari and wilderness experiences. Coming soon.">
 <meta name="theme-color" content="#131a13">
-
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jungle Skills & Adventures — Coming Soon">
 <meta property="og:description" content="We're crafting extraordinary wilderness experiences across Tanzania's most breathtaking landscapes. Stay tuned for something wild.">
 <meta property="og:image" content="https://jungleskillsadventures.github.io/og-image.jpg">
 <meta property="og:url" content="https://jungleskillsadventures.github.io">
 <meta property="og:site_name" content="Jungle Skills & Adventures">
-
-<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Jungle Skills & Adventures — Coming Soon">
 <meta name="twitter:description" content="Unforgettable safari and wilderness experiences across Tanzania. Coming soon.">
 <meta name="twitter:image" content="https://jungleskillsadventures.github.io/og-image.jpg">
-
 <link rel="icon" href="logo.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
-/* ── Reset ──────────────────────────────────────────────── */
-*,*::before,*::after { margin:0; padding:0; box-sizing:border-box }
-
-:root {
-  --bg:         #121912;
-  --surface:    #1a2419;
-  --surface-2:  #1f2c1e;
-  --earth:      #c4733a;
-  --earth-dk:   #a05a2a;
-  --earth-lt:   #d4895a;
-  --cream:      #f0ebe0;
-  --text:       #9a9690;
-  --muted:      #5a5850;
-  --border:     #283428;
-  --border-lt:  #374837;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#121912;
+  --surface:#1a2419;
+  --surface-2:#1f2c1e;
+  --earth:#c4733a;
+  --earth-dk:#a05a2a;
+  --earth-lt:#d4895a;
+  --cream:#f0ebe0;
+  --text:#9a9690;
+  --muted:#5a5850;
+  --border:#283428;
+  --border-lt:#374837;
 }
-
-html { scroll-behavior: smooth }
-
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--bg);
-  color: var(--cream);
-  min-height: 100vh;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  /* Thin earth accent top bar — editorial, not gimmicky */
-  border-top: 2px solid var(--earth-dk);
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--cream);
+  min-height:100vh;
+  overflow-x:hidden;
+  display:flex;
+  flex-direction:column;
+  border-top:2px solid var(--earth-dk);
 }
-
-/* Grain — single layer, tasteful opacity */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: .028;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  pointer-events:none;
+  opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-
-/* ── Background slideshow ────────────────────────────────── */
-.bg-field {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  /* Fallback color while first image loads */
-  background: var(--bg);
+.bg-field{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background:var(--bg);
+  overflow:hidden;
 }
-
-/* Each photo layer — stacked, cross-fading */
-.bg-slide {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0;
-  /* 1.8s cross-fade — smooth but not sluggish */
-  transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity;
-  /* GPU hint — prevents layer paint during transition */
-  transform: translateZ(0);
+.bg-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity 1.8s cubic-bezier(0.4,0,0.2,1);
+  will-change:opacity,transform;
+  z-index:0;
 }
-.bg-slide.active { opacity: 1 }
-
-/* Dark overlay — readable text, but photos still breathe through */
-.bg-overlay {
-  position: absolute;
-  inset: 0;
-  /* Gradient: heavier at top/bottom, lighter mid — shows off the
-     landscape horizon without blowing contrast on the content */
-  background: linear-gradient(
+.bg-slide.active{
+  opacity:1;
+  z-index:1;
+  animation:kenBurns 9s ease-in-out forwards;
+}
+.bg-slide.prev{
+  opacity:0;
+  z-index:0;
+}
+.bg-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
     to bottom,
     rgba(10,16,10,.72) 0%,
     rgba(10,16,10,.52) 45%,
     rgba(10,16,10,.60) 70%,
     rgba(10,16,10,.80) 100%
   );
-  pointer-events: none;
+  pointer-events:none;
 }
-
-/* ── Keyframes — minimal, purposeful ───────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px) }
-  to   { opacity: 1; transform: translateY(0) }
+@keyframes kenBurns{
+  0%{transform:scale(1.04) translateY(0)}
+  100%{transform:scale(1.12) translateY(-2.5%)}
 }
-@keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:.3} }
-@keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
-@keyframes countFlip {
-  0%   { opacity:1; transform:translateY(0) }
-  45%  { opacity:0; transform:translateY(-7px) }
-  55%  { opacity:0; transform:translateY(7px) }
-  100% { opacity:1; transform:translateY(0) }
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes countFlip{
+  0%{opacity:1;transform:translateY(0)}
+  45%{opacity:0;transform:translateY(-7px)}
+  55%{opacity:0;transform:translateY(7px)}
+  100%{opacity:1;transform:translateY(0)}
 }
-@keyframes wa-ping {
-  0%   { transform:scale(1); opacity:.45 }
-  100% { transform:scale(1.65); opacity:0 }
+@keyframes wa-ping{0%{transform:scale(1);opacity:.45}100%{transform:scale(1.65);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes notifyIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:no-preference){
+  .page-inner{animation:fadeUp .85s cubic-bezier(.22,1,.36,1) .15s both}
+  .status .dot{animation:pulse 2.4s ease-in-out infinite}
+  .lang-indicator::after{animation:blink 1s step-end infinite}
+  .cd-num.flip{animation:countFlip .32s ease both}
+  .whatsapp-float::after{animation:wa-ping 3.2s ease-out infinite}
+  .notify-spinner-el{animation:spin .8s linear infinite}
+  .notify-success.show{animation:notifyIn .28s ease both}
 }
-@keyframes spin       { to { transform:rotate(360deg) } }
-@keyframes notifyIn   { from { opacity:0; transform:scale(.97) } to { opacity:1; transform:scale(1) } }
-
-/* Motion guard */
-@media (prefers-reduced-motion: no-preference) {
-  .page-inner          { animation: fadeUp .85s cubic-bezier(.22,1,.36,1) .15s both }
-  .status .dot         { animation: pulse 2.4s ease-in-out infinite }
-  .lang-indicator::after { animation: blink 1s step-end infinite }
-  .cd-num.flip         { animation: countFlip .32s ease both }
-  .whatsapp-float::after { animation: wa-ping 3.2s ease-out infinite }
-  .notify-spinner-el   { animation: spin .8s linear infinite }
-  .notify-success.show { animation: notifyIn .28s ease both }
+.page{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:5rem 2rem 4rem;
+  text-align:center;
+  flex:1;
 }
-
-/* ── Layout ─────────────────────────────────────────────── */
-.page {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 5rem 2rem 4rem;
-  text-align: center;
-  flex: 1;
+.page-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  max-width:540px;
+  background:rgba(10,16,10,0.30);
+  border:1px solid rgba(40,52,40,0.40);
+  padding:2.8rem 2.2rem 2.2rem;
+  border-radius:2px;
 }
-
-.page-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 540px;
-  /* Subtle panel — not glassmorphism, just grounded depth.
-     Gives text a reliable dark floor regardless of which photo is showing. */
-  background: rgba(10, 16, 10, 0.30);
-  border: 1px solid rgba(40, 52, 40, 0.40);
-  padding: 2.8rem 2.2rem 2.2rem;
-  border-radius: 2px;
+.logo-wrap{margin-bottom:2.5rem}
+.logo-wrap img{
+  max-width:min(360px,78vw);
+  height:auto;
+  filter:drop-shadow(0 4px 24px rgba(0,0,0,.45));
 }
-
-/* ── Logo ───────────────────────────────────────────────── */
-.logo-wrap {
-  margin-bottom: 2.5rem;
+.hr{
+  width:100%;
+  height:1px;
+  background:var(--border);
+  margin:0 0 2rem;
+  position:relative;
 }
-.logo-wrap img {
-  max-width: min(360px, 78vw);
-  height: auto;
-  /* Clean drop shadow that matches brand, no glow soup */
-  filter: drop-shadow(0 4px 24px rgba(0,0,0,.45));
+.hr::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:-2px;
+  transform:translateX(-50%);
+  width:24px;
+  height:5px;
+  background:var(--earth-dk);
 }
-
-/* ── Horizontal rule ────────────────────────────────────── */
-.hr {
-  width: 100%;
-  height: 1px;
-  background: var(--border);
-  margin: 0 0 2rem;
-  position: relative;
+.lang-indicator{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:.55rem;
+  transition:opacity .65s ease,transform .45s ease;
 }
-/* Center pip on the rule — editorial detail */
-.hr::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: -2px;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 5px;
-  background: var(--earth-dk);
+.lang-flag{font-size:1rem;letter-spacing:0;line-height:1}
+.lang-indicator::after{content:'|';margin-left:2px;opacity:.5}
+.lang-indicator.fade-out{opacity:0;transform:translateY(-4px)}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:500;
+  font-size:clamp(1.65rem,4.5vw,2.9rem);
+  color:var(--cream);
+  letter-spacing:.03em;
+  line-height:1.2;
+  margin-bottom:.8rem;
 }
-
-/* ── Language indicator ─────────────────────────────────── */
-.lang-indicator {
-  font-size: .58rem;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: .55rem;
-  transition: opacity .65s ease, transform .45s ease;
+h1 .welcome-cycle{
+  display:block;
+  font-style:normal;
+  font-weight:300;
+  font-size:.42em;
+  letter-spacing:.26em;
+  color:var(--muted);
+  margin-bottom:.5em;
+  text-transform:uppercase;
+  transition:opacity .65s ease,transform .55s ease;
 }
-.lang-indicator::after { content: '|'; margin-left: 3px }
-.lang-indicator.fade-out { opacity: 0; transform: translateY(-4px) }
-
-/* ── Heading ────────────────────────────────────────────── */
-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 500;
-  font-size: clamp(1.65rem, 4.5vw, 2.9rem);
-  color: var(--cream);
-  letter-spacing: .03em;
-  line-height: 1.2;
-  margin-bottom: .8rem;
+h1 .welcome-cycle.fade-out{opacity:0;transform:translateY(-5px)}
+h1 .subtitle{
+  display:block;
+  font-style:italic;
+  font-weight:300;
+  font-size:.52em;
+  color:var(--earth-lt);
+  letter-spacing:.04em;
+  margin-top:.4em;
+  min-height:1.4em;
+  transition:opacity .65s ease,transform .55s ease;
 }
-
-h1 .welcome-cycle {
-  display: block;
-  font-style: normal;
-  font-weight: 300;
-  font-size: .42em;
-  letter-spacing: .26em;
-  color: var(--muted);
-  margin-bottom: .5em;
-  text-transform: uppercase;
-  transition: opacity .65s ease, transform .55s ease;
+h1 .subtitle.fade-out{opacity:0;transform:translateY(5px)}
+.tagline{
+  font-weight:300;
+  font-size:clamp(.85rem,2vw,1rem);
+  color:var(--text);
+  line-height:1.8;
+  margin-bottom:2.2rem;
+  transition:opacity .65s ease,transform .55s ease;
 }
-h1 .welcome-cycle.fade-out { opacity: 0; transform: translateY(-5px) }
-
-h1 .subtitle {
-  display: block;
-  font-style: italic;
-  font-weight: 300;
-  font-size: .52em;
-  color: var(--earth-lt);
-  letter-spacing: .04em;
-  margin-top: .4em;
-  transition: opacity .65s ease, transform .55s ease;
+.tagline.fade-out{opacity:0;transform:translateY(5px)}
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:.55rem;
+  padding:.45rem 1.1rem;
+  border:1px solid var(--border-lt);
+  background:var(--surface);
+  color:var(--text);
+  font-size:.68rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:2.2rem;
+  border-radius:2px;
 }
-h1 .subtitle.fade-out { opacity: 0; transform: translateY(5px) }
-
-/* ── Tagline ────────────────────────────────────────────── */
-.tagline {
-  font-weight: 300;
-  font-size: clamp(.85rem, 2vw, 1rem);
-  color: var(--text);
-  line-height: 1.8;
-  margin-bottom: 2.2rem;
-  transition: opacity .65s ease, transform .55s ease;
+.status .dot{width:5px;height:5px;border-radius:50%;background:var(--earth);flex-shrink:0}
+.status #statusText{transition:opacity .65s ease}
+.status #statusText.fade-out{opacity:0}
+.countdown-wrap{margin-bottom:2.2rem;width:100%}
+.countdown-label{font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.countdown{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap}
+.cd-unit{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:64px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-top:2px solid var(--earth-dk);
+  padding:.85rem .5rem .65rem;
+  transition:border-color .2s ease,border-top-color .2s ease;
 }
-.tagline.fade-out { opacity: 0; transform: translateY(5px) }
-
-/* ── Status badge — FLAT, solid, no blur ────────────────── */
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: .55rem;
-  padding: .45rem 1.1rem;
-  border: 1px solid var(--border-lt);
-  background: var(--surface);
-  color: var(--text);
-  font-size: .68rem;
-  font-weight: 500;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  margin-bottom: 2.2rem;
-  /* Squared — matches safari/terrain aesthetic */
-  border-radius: 2px;
+.cd-unit:hover{border-color:var(--border-lt);border-top-color:var(--earth)}
+.cd-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.5rem,4vw,2.1rem);
+  font-weight:500;
+  color:var(--cream);
+  line-height:1;
+  display:inline-block;
+  min-width:2.5ch;
+  text-align:center;
 }
-.status .dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--earth);
-  flex-shrink: 0;
+.cd-sep{font-size:.53rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:.45rem}
+.countdown-expired{color:var(--earth-lt);font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
+.section-rule{width:100%;height:1px;background:var(--border);margin:0 0 2.2rem}
+.notify-wrap{margin-bottom:2.2rem;width:100%}
+.notify-label{font-size:.57rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+.notify-form{display:flex;gap:0;border:1px solid var(--border-lt);background:var(--surface);transition:border-color .22s ease}
+.notify-form:focus-within{border-color:var(--earth-dk)}
+.notify-input{
+  flex:1;background:none;border:none;outline:none;
+  font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:300;
+  color:var(--cream);padding:.75rem 1rem;min-width:0;
 }
-.status #statusText { transition: opacity .65s ease }
-.status #statusText.fade-out { opacity: 0 }
-
-/* ── Countdown — solid tiles, top-border accent ─────────── */
-.countdown-wrap { margin-bottom: 2.2rem; width: 100% }
-.countdown-label {
-  font-size: .57rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: .9rem;
+.notify-input::placeholder{color:var(--muted)}
+.notify-input.error{color:#d97070}
+.notify-btn{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.75rem 1.1rem;border:none;border-left:1px solid var(--border-lt);
+  cursor:pointer;background:var(--earth-dk);color:var(--cream);
+  font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
+  flex-shrink:0;transition:background .22s ease;
 }
-.countdown {
-  display: flex;
-  gap: .4rem;
-  justify-content: center;
-  flex-wrap: wrap;
+.notify-btn:hover:not(:disabled){background:var(--earth)}
+.notify-btn:disabled{opacity:.45;cursor:not-allowed}
+.notify-btn svg.arrow{transition:transform .22s ease}
+.notify-btn:hover:not(:disabled) svg.arrow{transform:translateX(3px)}
+.notify-spinner-el{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:rgba(255,255,255,.85);border-radius:50%;display:none}
+.notify-btn.loading .notify-spinner-el{display:block}
+.notify-btn.loading .btn-text,.notify-btn.loading svg.arrow{display:none}
+.notify-success{display:none;align-items:center;justify-content:center;gap:.5rem;color:var(--text);font-size:.8rem;font-weight:300;padding:.8rem}
+.notify-success.show{display:flex}
+.notify-success svg{color:var(--earth);flex-shrink:0}
+.contact-section{width:100%}
+.contact-label{font-size:.57rem;color:var(--muted);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.9rem}
+.social-links{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:center}
+.social-link{
+  display:inline-flex;align-items:center;gap:.38rem;
+  padding:.44rem .88rem;border:1px solid var(--border);
+  color:var(--text);text-decoration:none;font-size:.7rem;font-weight:400;
+  letter-spacing:.05em;background:transparent;cursor:pointer;border-radius:2px;
+  transition:border-color .18s ease,color .18s ease,background .18s ease;
 }
-.cd-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 64px;
-  background: var(--surface);
-  /* The top accent line is the one design flourish — earned, not decorative filler */
-  border: 1px solid var(--border);
-  border-top: 2px solid var(--earth-dk);
-  padding: .85rem .5rem .65rem;
-  transition: border-color .2s ease, border-top-color .2s ease;
+.social-link:hover{border-color:var(--border-lt);color:var(--cream);background:var(--surface)}
+.social-link.whatsapp-link:hover{border-color:rgba(37,211,102,.28);color:#25d366;background:rgba(37,211,102,.06)}
+.whatsapp-float{
+  position:fixed;bottom:2rem;right:2rem;z-index:100;
+  width:50px;height:50px;border-radius:50%;background:#25d366;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.45);
+  transition:transform .22s ease,box-shadow .22s ease;
 }
-.cd-unit:hover {
-  border-color: var(--border-lt);
-  border-top-color: var(--earth);
+.whatsapp-float:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.55)}
+.whatsapp-float::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,.22);pointer-events:none}
+.footer{text-align:center;font-size:.58rem;color:var(--muted);letter-spacing:.1em;padding:1.5rem;margin-top:auto;position:relative;z-index:1;border-top:1px solid var(--border)}
+.email-backdrop{
+  position:fixed;inset:0;z-index:10000;display:flex;align-items:center;
+  justify-content:center;padding:1.5rem;background:rgba(8,12,8,.85);
+  opacity:0;pointer-events:none;transition:opacity .28s ease;
 }
-.cd-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.5rem, 4vw, 2.1rem);
-  font-weight: 500;
-  color: var(--cream);
-  line-height: 1;
-  display: inline-block;
-  min-width: 2.5ch;
-  text-align: center;
+.email-backdrop.open{opacity:1;pointer-events:all}
+.email-modal{
+  position:relative;width:100%;max-width:410px;background:var(--surface);
+  border:1px solid var(--border-lt);border-top:3px solid var(--earth-dk);
+  padding:2.2rem 1.8rem 1.8rem;box-shadow:0 20px 60px rgba(0,0,0,.7);
+  transform:translateY(14px);transition:transform .32s cubic-bezier(.22,1,.36,1);
 }
-.cd-sep {
-  font-size: .53rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: .45rem;
+.email-backdrop.open .email-modal{transform:translateY(0)}
+.email-modal-close{
+  position:absolute;top:.9rem;right:.9rem;width:26px;height:26px;
+  border:1px solid var(--border);background:transparent;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:13px;transition:border-color .18s,color .18s;border-radius:2px;
 }
-.countdown-expired {
-  color: var(--earth-lt);
-  font-size: .82rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+.email-modal-close:hover{border-color:var(--border-lt);color:var(--cream)}
+.email-modal-eyebrow{font-size:.57rem;letter-spacing:.24em;text-transform:uppercase;color:var(--earth);margin-bottom:.45rem}
+.email-modal-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--cream);margin-bottom:.3rem}
+.email-modal-sub{font-size:.74rem;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
+.email-divider{height:1px;margin-bottom:1.2rem;background:var(--border)}
+.email-option{
+  display:flex;align-items:center;gap:.85rem;padding:.85rem 1rem;
+  border:1px solid var(--border);background:var(--bg);text-decoration:none;color:inherit;
+  transition:border-color .18s ease,background .18s ease;margin-bottom:.55rem;cursor:pointer;border-radius:2px;
 }
-
-/* ── Section divider ────────────────────────────────────── */
-.section-rule {
-  width: 100%;
-  height: 1px;
-  background: var(--border);
-  margin: 0 0 2.2rem;
+.email-option:last-child{margin-bottom:0}
+.email-option:hover{border-color:var(--border-lt);background:var(--surface-2)}
+.email-option-icon{width:36px;height:36px;flex-shrink:0;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--earth);border-radius:2px}
+.email-option:hover .email-option-icon{border-color:var(--border-lt)}
+.email-option-body{flex:1;min-width:0}
+.email-option-label{font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;color:var(--earth);opacity:.8;margin-bottom:.12rem;font-weight:500}
+.email-option-address{font-size:.85rem;font-weight:400;color:rgba(240,235,224,.82);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.email-option-desc{font-size:.67rem;color:var(--muted);margin-top:.1rem;font-weight:300}
+.email-option-arrow{color:var(--muted);flex-shrink:0;transition:transform .18s ease,color .18s ease}
+.email-option:hover .email-option-arrow{color:var(--earth);transform:translateX(3px)}
+.email-toast{
+  position:fixed;bottom:2.5rem;left:50%;transform:translateX(-50%) translateY(8px);
+  z-index:10001;background:var(--surface);border:1px solid var(--earth-dk);
+  color:var(--earth-lt);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:.48rem 1.1rem;border-radius:2px;opacity:0;transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;white-space:nowrap;
 }
-
-/* ── Notify form — flat, bordered, no glass ─────────────── */
-.notify-wrap { margin-bottom: 2.2rem; width: 100% }
-.notify-label {
-  font-size: .57rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: .7rem;
-}
-.notify-form {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border-lt);
-  background: var(--surface);
-  transition: border-color .22s ease;
-}
-.notify-form:focus-within {
-  border-color: var(--earth-dk);
-}
-.notify-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-family: 'Outfit', sans-serif;
-  font-size: .82rem;
-  font-weight: 300;
-  color: var(--cream);
-  padding: .75rem 1rem;
-  min-width: 0;
-}
-.notify-input::placeholder { color: var(--muted) }
-.notify-input.error { color: #d97070 }
-.notify-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  padding: .75rem 1.1rem;
-  border: none;
-  border-left: 1px solid var(--border-lt);
-  cursor: pointer;
-  background: var(--earth-dk);
-  color: var(--cream);
-  font-family: 'Outfit', sans-serif;
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background .22s ease;
-}
-.notify-btn:hover:not(:disabled) { background: var(--earth) }
-.notify-btn:disabled { opacity: .45; cursor: not-allowed }
-.notify-btn svg.arrow { transition: transform .22s ease }
-.notify-btn:hover:not(:disabled) svg.arrow { transform: translateX(3px) }
-.notify-spinner-el {
-  width: 13px;
-  height: 13px;
-  border: 2px solid rgba(255,255,255,.3);
-  border-top-color: rgba(255,255,255,.85);
-  border-radius: 50%;
-  display: none;
-}
-.notify-btn.loading .notify-spinner-el { display: block }
-.notify-btn.loading .btn-text,
-.notify-btn.loading svg.arrow { display: none }
-.notify-success {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  color: var(--text);
-  font-size: .8rem;
-  font-weight: 300;
-  padding: .8rem;
-}
-.notify-success.show { display: flex }
-.notify-success svg { color: var(--earth); flex-shrink: 0 }
-
-/* ── Contact / social ───────────────────────────────────── */
-.contact-section { width: 100% }
-.contact-label {
-  font-size: .57rem;
-  color: var(--muted);
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  margin-bottom: .9rem;
-}
-.social-links {
-  display: flex;
-  gap: .35rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-/* Flat buttons — no pulsing, no glow, just clean hover state */
-.social-link {
-  display: inline-flex;
-  align-items: center;
-  gap: .38rem;
-  padding: .44rem .88rem;
-  border: 1px solid var(--border);
-  color: var(--text);
-  text-decoration: none;
-  font-size: .7rem;
-  font-weight: 400;
-  letter-spacing: .05em;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 2px;
-  transition: border-color .18s ease, color .18s ease, background .18s ease;
-}
-.social-link:hover {
-  border-color: var(--border-lt);
-  color: var(--cream);
-  background: var(--surface);
-}
-.social-link.whatsapp-link:hover {
-  border-color: rgba(37,211,102,.28);
-  color: #25d366;
-  background: rgba(37,211,102,.06);
-}
-
-/* ── WhatsApp float ─────────────────────────────────────── */
-.whatsapp-float {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 100;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #25d366;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,.45);
-  transition: transform .22s ease, box-shadow .22s ease;
-}
-.whatsapp-float:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0,0,0,.55);
-}
-.whatsapp-float::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid rgba(37,211,102,.22);
-  pointer-events: none;
-}
-
-/* ── Footer ─────────────────────────────────────────────── */
-.footer {
-  text-align: center;
-  font-size: .58rem;
-  color: var(--muted);
-  letter-spacing: .1em;
-  padding: 1.5rem;
-  margin-top: auto;
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid var(--border);
-}
-
-/* ── Email Modal — solid, no glass ─────────────────────── */
-.email-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  background: rgba(8,12,8,.85);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .28s ease;
-}
-.email-backdrop.open { opacity: 1; pointer-events: all }
-
-.email-modal {
-  position: relative;
-  width: 100%;
-  max-width: 410px;
-  background: var(--surface);
-  border: 1px solid var(--border-lt);
-  border-top: 3px solid var(--earth-dk);
-  padding: 2.2rem 1.8rem 1.8rem;
-  box-shadow: 0 20px 60px rgba(0,0,0,.7);
-  transform: translateY(14px);
-  transition: transform .32s cubic-bezier(.22,1,.36,1);
-}
-.email-backdrop.open .email-modal { transform: translateY(0) }
-
-.email-modal-close {
-  position: absolute;
-  top: .9rem;
-  right: .9rem;
-  width: 26px;
-  height: 26px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 13px;
-  transition: border-color .18s, color .18s;
-  border-radius: 2px;
-}
-.email-modal-close:hover { border-color: var(--border-lt); color: var(--cream) }
-
-.email-modal-eyebrow {
-  font-size: .57rem;
-  letter-spacing: .24em;
-  text-transform: uppercase;
-  color: var(--earth);
-  margin-bottom: .45rem;
-}
-.email-modal-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: var(--cream);
-  margin-bottom: .3rem;
-}
-.email-modal-sub {
-  font-size: .74rem;
-  color: var(--muted);
-  margin-bottom: 1.5rem;
-  font-weight: 300;
-}
-.email-divider { height: 1px; margin-bottom: 1.2rem; background: var(--border) }
-
-.email-option {
-  display: flex;
-  align-items: center;
-  gap: .85rem;
-  padding: .85rem 1rem;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  text-decoration: none;
-  color: inherit;
-  transition: border-color .18s ease, background .18s ease;
-  margin-bottom: .55rem;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.email-option:last-child { margin-bottom: 0 }
-.email-option:hover { border-color: var(--border-lt); background: var(--surface-2) }
-
-.email-option-icon {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--earth);
-  border-radius: 2px;
-}
-.email-option:hover .email-option-icon { border-color: var(--border-lt) }
-
-.email-option-body { flex: 1; min-width: 0 }
-.email-option-label {
-  font-size: .57rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--earth);
-  opacity: .8;
-  margin-bottom: .12rem;
-  font-weight: 500;
-}
-.email-option-address {
-  font-size: .85rem;
-  font-weight: 400;
-  color: rgba(240,235,224,.82);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.email-option-desc {
-  font-size: .67rem;
-  color: var(--muted);
-  margin-top: .1rem;
-  font-weight: 300;
-}
-.email-option-arrow {
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: transform .18s ease, color .18s ease;
-}
-.email-option:hover .email-option-arrow {
-  color: var(--earth);
-  transform: translateX(3px);
-}
-
-/* ── Toast ──────────────────────────────────────────────── */
-.email-toast {
-  position: fixed;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  z-index: 10001;
-  background: var(--surface);
-  border: 1px solid var(--earth-dk);
-  color: var(--earth-lt);
-  font-size: .7rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  padding: .48rem 1.1rem;
-  border-radius: 2px;
-  opacity: 0;
-  transition: opacity .22s ease, transform .22s ease;
-  pointer-events: none;
-  white-space: nowrap;
-}
-.email-toast.show { opacity: 1; transform: translateX(-50%) translateY(0) }
-
-/* ── Responsive ─────────────────────────────────────────── */
-@media (max-width: 520px) {
-  .logo-wrap img  { max-width: 240px }
-  .page           { padding: 4rem 1.25rem 3rem }
-  .cd-unit        { min-width: 56px; padding: .7rem .4rem .55rem }
-  .cd-num         { font-size: 1.35rem }
-  .notify-form    { flex-direction: column }
-  .notify-btn     { border-left: none; border-top: 1px solid var(--border-lt); justify-content: center; padding: .7rem }
-  .social-links   { gap: .28rem }
-  .social-link    { padding: .38rem .7rem; font-size: .66rem }
-  .whatsapp-float { bottom: 1.2rem; right: 1.2rem; width: 44px; height: 44px }
-  .whatsapp-float svg { width: 22px; height: 22px }
+.email-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:520px){
+  .logo-wrap img{max-width:240px}
+  .page{padding:4rem 1.25rem 3rem}
+  .cd-unit{min-width:56px;padding:.7rem .4rem .55rem}
+  .cd-num{font-size:1.35rem}
+  .notify-form{flex-direction:column}
+  .notify-btn{border-left:none;border-top:1px solid var(--border-lt);justify-content:center;padding:.7rem}
+  .social-links{gap:.28rem}
+  .social-link{padding:.38rem .7rem;font-size:.66rem}
+  .whatsapp-float{bottom:1.2rem;right:1.2rem;width:44px;height:44px}
+  .whatsapp-float svg{width:22px;height:22px}
 }
 </style>
 </head>
 <body>
-
 <div class="bg-field" id="bgField">
-  <!-- Photo slides injected by initBgSlideshow() below -->
   <div class="bg-overlay"></div>
 </div>
-
 <div class="page">
   <div class="page-inner">
-
-    <!-- Logo -->
     <div class="logo-wrap">
       <img src="logo.png" alt="Jungle Skills &amp; Adventures">
     </div>
-
-    <!-- Rule with center pip -->
     <div class="hr"></div>
-
-    <!-- Language indicator -->
-    <div class="lang-indicator" id="langLabel">English</div>
-
-    <!-- Heading -->
+    <div class="lang-indicator" id="langLabel">
+      <span class="lang-flag" id="langFlag">&#x1F1EC;&#x1F1E7;</span>
+      <span id="langName">English</span>
+    </div>
     <h1>
       <span class="welcome-cycle" id="welcomeText">Welcome to</span>
       Jungle Skills &amp; Adventures
-      <span class="subtitle" id="subtitleText">Where the Wild Awaits</span>
+      <span class="subtitle" id="subtitleText"></span>
     </h1>
-
-    <!-- Tagline -->
-    <p class="tagline" id="taglineText">
-      We're crafting extraordinary wilderness experiences across Tanzania's most breathtaking landscapes. Our full site is on its way — stay tuned for something wild.
-    </p>
-
-    <!-- Status badge -->
+    <p class="tagline" id="taglineText">We're crafting extraordinary wilderness experiences across Tanzania's most breathtaking landscapes. Our full site is on its way — stay tuned for something wild.</p>
     <div class="status">
       <span class="dot"></span>
       <span id="statusText">Site Under Construction</span>
     </div>
-
-    <!-- Countdown -->
     <div class="countdown-wrap" id="countdownWrap">
       <div class="countdown-label">Launching In</div>
       <div class="countdown">
@@ -734,391 +410,250 @@ h1 .subtitle.fade-out { opacity: 0; transform: translateY(5px) }
         <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-sep">Sec</span></div>
       </div>
     </div>
-
-    <!-- Section divider -->
     <div class="section-rule"></div>
-
-    <!-- Notify form -->
     <div class="notify-wrap">
       <div class="notify-label">Notify Me at Launch</div>
       <div class="notify-form" id="notifyFormWrap">
-        <input
-          class="notify-input" id="notifyEmail"
-          type="email" placeholder="your@email.com"
-          autocomplete="email" aria-label="Your email address"
-        >
+        <input class="notify-input" id="notifyEmail" type="email" placeholder="your@email.com" autocomplete="email" aria-label="Your email address">
         <button class="notify-btn" id="notifyBtn" onclick="handleNotify()">
           <span class="btn-text">Notify Me</span>
           <div class="notify-spinner-el"></div>
-          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </div>
       <div class="notify-success" id="notifySuccess">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         You're on the list — we'll be in touch soon.
       </div>
     </div>
-
-    <!-- Section divider -->
     <div class="section-rule"></div>
-
-    <!-- Social / Contact -->
     <div class="contact-section">
       <div class="contact-label">Reach Us</div>
       <div class="social-links">
-
-        <a href="https://www.instagram.com/jungleskillsadventures" target="_blank" rel="noopener"
-          aria-label="Instagram" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5"/>
-            <circle cx="12" cy="12" r="5"/>
-            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
-          </svg>
+        <a href="https://www.instagram.com/jungleskillsadventures" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
           <span>Instagram</span>
         </a>
-
-        <a href="https://www.facebook.com/jungleskillsadventures" target="_blank" rel="noopener"
-          aria-label="Facebook" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
+        <a href="https://www.facebook.com/jungleskillsadventures" target="_blank" rel="noopener" aria-label="Facebook" class="social-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           <span>Facebook</span>
         </a>
-
-        <a href="https://www.tiktok.com/@jungleskillsadventures1" target="_blank" rel="noopener"
-          aria-label="TikTok" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.05a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.48z"/>
-          </svg>
+        <a href="https://www.tiktok.com/@jungleskillsadventures1" target="_blank" rel="noopener" aria-label="TikTok" class="social-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.05a8.16 8.16 0 004.76 1.52v-3.4a4.85 4.85 0 01-1-.48z"/></svg>
           <span>TikTok</span>
         </a>
-
         <button onclick="openEmailModal()" class="social-link" aria-label="Email us">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="20" height="16" rx="2"/>
-            <path d="M22 4L12 13 2 4"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
           <span>Email</span>
         </button>
-
         <a href="tel:+255613926499" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-          </svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
           <span>Call Us</span>
         </a>
-
-        <a href="https://wa.me/255613926499" target="_blank" rel="noopener"
-          class="social-link whatsapp-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
+        <a href="https://wa.me/255613926499" target="_blank" rel="noopener" class="social-link whatsapp-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           <span>WhatsApp</span>
         </a>
-
       </div>
     </div>
-
-  </div><!-- /.page-inner -->
-</div><!-- /.page -->
-
-<!-- WhatsApp float -->
-<a href="https://wa.me/255613926499" target="_blank" rel="noopener"
-  class="whatsapp-float" aria-label="Chat on WhatsApp">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
+  </div>
+</div>
+<a href="https://wa.me/255613926499" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
-
-<!-- Email Modal -->
-<div class="email-backdrop" id="emailBackdrop" role="dialog" aria-modal="true"
-  aria-label="Choose email address" onclick="handleBackdropClick(event)">
+<div class="email-backdrop" id="emailBackdrop" role="dialog" aria-modal="true" aria-label="Choose email address" onclick="handleBackdropClick(event)">
   <div class="email-modal">
     <button class="email-modal-close" onclick="closeEmailModal()" aria-label="Close">&#x2715;</button>
-
     <div class="email-modal-eyebrow">Get in Touch</div>
     <div class="email-modal-title">Send Us a Message</div>
     <div class="email-modal-sub">Choose the inbox that best matches your enquiry</div>
-
     <div class="email-divider"></div>
-
     <a href="mailto:info@jungleskillsadventures.com" class="email-option" onclick="closeEmailModal()">
       <div class="email-option-icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       </div>
       <div class="email-option-body">
         <div class="email-option-label">Safari &amp; Bookings</div>
         <div class="email-option-address">info@jungleskillsadventures.com</div>
         <div class="email-option-desc">Tours, reservations &amp; adventure packages</div>
       </div>
-      <div class="email-option-arrow">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </div>
+      <div class="email-option-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </a>
-
     <a href="mailto:hello@jungleskillsadventures.com" class="email-option" onclick="closeEmailModal()">
       <div class="email-option-icon">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-        </svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       </div>
       <div class="email-option-body">
         <div class="email-option-label">General Enquiries</div>
         <div class="email-option-address">hello@jungleskillsadventures.com</div>
         <div class="email-option-desc">Partnerships, press &amp; general questions</div>
       </div>
-      <div class="email-option-arrow">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </div>
+      <div class="email-option-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </a>
   </div>
 </div>
-
 <div class="email-toast" id="emailToast">Address copied</div>
-
-<!-- Footer -->
 <footer class="footer">&copy; 2026 Jungle Skills &amp; Adventures. All rights reserved.</footer>
-
 <script>
-/* ═══════════════════════════════════════════════════════════
-   JUNGLE SKILLS & ADVENTURES — Coming Soon
-   ═══════════════════════════════════════════════════════════ */
-
-/* ── Background Slideshow ─────────────────────────────────── */
-(function initBgSlideshow() {
-  /* Images live in the .bg/ folder at repo root.
-     Order is shuffled on each page load so no two visits look the same. */
-    /* AUTO-GENERATED — do not edit between these markers */
-  /* BG_IMAGES_START */
-  const imgs = [
-    '.bg/1286211.jpg',
-    '.bg/1286215.jpg',
-    '.bg/1286261.jpg',
-    '.bg/1286310.jpg',
-    '.bg/2113686.jpg',
-    '.bg/2113713.jpg',
+(function initBgSlideshow(){
+  var imgs=[
+    '.bg/1286211.jpg','.bg/1286215.jpg','.bg/1286261.jpg','.bg/1286310.jpg',
+    '.bg/2113686.jpg','.bg/2113713.jpg',
     '.bg/221228-awesome-safari-wallpaper-21049-1920x1080px.jpg',
     '.bg/Dz1d9Z.jpg',
     '.bg/animals-grass-giraffes-wildlife-Zoo-giraffe-773314-wallhere.com.jpg',
-    '.bg/dvan3V.jpg',
-    '.bg/safari-4.jpg',
-    '.bg/tree_savanna_africa_408057_1920x1080.jpg',
+    '.bg/dvan3V.jpg','.bg/safari-4.jpg',
+    '.bg/tree_savanna_africa_408057_1920x1080.jpg'
   ];
-  /* BG_IMAGES_END */
-
-  /* Fisher-Yates shuffle — genuine randomness, not a fake "randomised" loop */
-  for (let i = imgs.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [imgs[i], imgs[j]] = [imgs[j], imgs[i]];
+  for(var i=imgs.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=imgs[i];imgs[i]=imgs[j];imgs[j]=t;
   }
-
-  const field   = document.getElementById('bgField');
-  const overlay = field.querySelector('.bg-overlay');
-
-  /* Build slide elements and preload images off-screen first */
-  const slides = imgs.map(src => {
-    const el = document.createElement('div');
-    el.className = 'bg-slide';
-    el.style.backgroundImage = `url('${src}')`;
-    field.insertBefore(el, overlay); // keep overlay above slides
+  var field=document.getElementById('bgField');
+  var overlay=field.querySelector('.bg-overlay');
+  var reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var slides=imgs.map(function(src){
+    var el=document.createElement('div');
+    el.className='bg-slide';
+    el.style.backgroundImage="url('"+src+"')";
+    field.insertBefore(el,overlay);
     return el;
   });
-
-  /* If user wants reduced motion — show first image, no fading */
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    slides[0].classList.add('active');
-    return;
+  if(reduced){slides[0].style.opacity='1';return;}
+  var current=0;
+  function activate(idx){
+    var el=slides[idx];
+    el.style.animation='none';
+    void el.offsetWidth;
+    el.style.animation='';
+    el.classList.add('active');
+    el.classList.remove('prev');
   }
-
-  /* Stagger in the first image: tiny delay so layout paint completes */
-  let current = 0;
-  setTimeout(() => slides[0].classList.add('active'), 80);
-
-  /* Advance every 7 s — long enough to appreciate the photo */
-  setInterval(() => {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }, 7000);
+  activate(0);
+  setInterval(function(){
+    var prevEl=slides[current];
+    current=(current+1)%slides.length;
+    activate(current);
+    setTimeout(function(){
+      prevEl.classList.remove('active');
+      prevEl.classList.add('prev');
+    },50);
+    setTimeout(function(){
+      prevEl.classList.remove('prev');
+    },2000);
+  },7000);
 })();
 
-/* CONFIG */
-const LAUNCH_DATE  = new Date(2026, 8, 1); // 1 September 2026
-const FORMSPREE_ID = 'YOUR_FORM_ID';       // replace with your Formspree ID
+var LAUNCH_DATE=new Date(2026,8,1);
+var FORMSPREE_ID='YOUR_FORM_ID';
+var prefersReduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function openEmailModal(){document.getElementById('emailBackdrop').classList.add('open');document.body.style.overflow='hidden';}
+function closeEmailModal(){document.getElementById('emailBackdrop').classList.remove('open');document.body.style.overflow='';}
+function handleBackdropClick(e){if(e.target===document.getElementById('emailBackdrop'))closeEmailModal();}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeEmailModal();});
 
-/* ── Email Modal ──────────────────────────────────────────── */
-function openEmailModal(){
-  document.getElementById('emailBackdrop').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeEmailModal(){
-  document.getElementById('emailBackdrop').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function handleBackdropClick(e){
-  if(e.target === document.getElementById('emailBackdrop')) closeEmailModal();
-}
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeEmailModal(); });
-
-/* ── Countdown ────────────────────────────────────────────── */
 (function initCountdown(){
-  const cdDays  = document.getElementById('cd-days');
-  const cdHours = document.getElementById('cd-hours');
-  const cdMins  = document.getElementById('cd-mins');
-  const cdSecs  = document.getElementById('cd-secs');
-  const wrap    = document.getElementById('countdownWrap');
-  const prev    = { d:'', h:'', m:'', s:'' };
-
-  function pad(n){ return String(n).padStart(2,'0'); }
-
-  function flipEl(el, val, key){
-    if(val === prev[key]) return;
-    prev[key] = val;
-    el.textContent = val;
-    if(!prefersReduced){
-      el.classList.remove('flip');
-      void el.offsetWidth;
-      el.classList.add('flip');
-    }
+  var d=document.getElementById('cd-days'),h=document.getElementById('cd-hours'),
+      m=document.getElementById('cd-mins'),s=document.getElementById('cd-secs');
+  var wrap=document.getElementById('countdownWrap');
+  var prev={d:'',h:'',m:'',s:''};
+  function pad(n){return String(n).padStart(2,'0');}
+  function flip(el,val,key){
+    if(val===prev[key])return;
+    prev[key]=val;el.textContent=val;
+    if(!prefersReduced){el.classList.remove('flip');void el.offsetWidth;el.classList.add('flip');}
   }
-
   function tick(){
-    const diff = LAUNCH_DATE.getTime() - Date.now();
-    if(diff <= 0){
-      wrap.innerHTML = '<div class="countdown-expired">We\'re Live — Explore Now</div>';
-      return;
-    }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000)  / 60000);
-    const s = Math.floor((diff % 60000)    / 1000);
-    flipEl(cdDays,  pad(d), 'd');
-    flipEl(cdHours, pad(h), 'h');
-    flipEl(cdMins,  pad(m), 'm');
-    flipEl(cdSecs,  pad(s), 's');
+    var diff=LAUNCH_DATE.getTime()-Date.now();
+    if(diff<=0){wrap.innerHTML='<div class="countdown-expired">We\'re Live \u2014 Explore Now</div>';return;}
+    flip(d,pad(Math.floor(diff/86400000)),'d');
+    flip(h,pad(Math.floor((diff%86400000)/3600000)),'h');
+    flip(m,pad(Math.floor((diff%3600000)/60000)),'m');
+    flip(s,pad(Math.floor((diff%60000)/1000)),'s');
   }
-  tick();
-  setInterval(tick, 1000);
+  tick();setInterval(tick,1000);
 })();
 
-/* ── Notify Me ────────────────────────────────────────────── */
 async function handleNotify(){
-  const input    = document.getElementById('notifyEmail');
-  const btn      = document.getElementById('notifyBtn');
-  const formWrap = document.getElementById('notifyFormWrap');
-  const success  = document.getElementById('notifySuccess');
-  const email    = input.value.trim();
-
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    input.classList.add('error');
-    input.focus();
-    setTimeout(() => input.classList.remove('error'), 1400);
-    return;
+  var input=document.getElementById('notifyEmail'),btn=document.getElementById('notifyBtn'),
+      formWrap=document.getElementById('notifyFormWrap'),success=document.getElementById('notifySuccess');
+  var email=input.value.trim();
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    input.classList.add('error');input.focus();
+    setTimeout(function(){input.classList.remove('error');},1400);return;
   }
-
-  btn.disabled = true;
-  btn.classList.add('loading');
-
-  if(FORMSPREE_ID === 'YOUR_FORM_ID'){
-    window.location.href =
-      `mailto:info@jungleskillsadventures.com?subject=Launch%20Notification%20Request` +
-      `&body=Please%20add%20me%20to%20the%20launch%20list%3A%20${encodeURIComponent(email)}`;
-    setTimeout(() => {
-      formWrap.style.display = 'none';
-      success.classList.add('show');
-    }, 600);
-    return;
+  btn.disabled=true;btn.classList.add('loading');
+  if(FORMSPREE_ID==='YOUR_FORM_ID'){
+    window.location.href='mailto:info@jungleskillsadventures.com?subject=Launch%20Notification%20Request&body=Please%20add%20me%20to%20the%20launch%20list%3A%20'+encodeURIComponent(email);
+    setTimeout(function(){formWrap.style.display='none';success.classList.add('show');},600);return;
   }
-
-  try {
-    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, _subject: 'Launch Notification — Jungle Skills' }),
+  try{
+    var res=await fetch('https://formspree.io/f/'+FORMSPREE_ID,{
+      method:'POST',
+      headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({email:email,_subject:'Launch Notification \u2014 Jungle Skills'})
     });
-    if(res.ok){
-      formWrap.style.display = 'none';
-      success.classList.add('show');
-    } else { throw new Error('non-ok'); }
-  } catch(err){
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    input.placeholder = 'Something went wrong — try again';
-  }
+    if(res.ok){formWrap.style.display='none';success.classList.add('show');}
+    else throw new Error('non-ok');
+  }catch(err){btn.disabled=false;btn.classList.remove('loading');input.placeholder='Something went wrong \u2014 try again';}
+}
+document.getElementById('notifyEmail').addEventListener('keydown',function(e){if(e.key==='Enter')handleNotify();});
+
+function typewriter(el,text,speed){
+  speed=speed||44;el.textContent='';var i=0;
+  (function type(){if(i<text.length){el.textContent+=text[i++];setTimeout(type,speed);}})();
 }
 
-document.getElementById('notifyEmail').addEventListener('keydown', e => {
-  if(e.key === 'Enter') handleNotify();
-});
-
-/* ── Language Cycling ─────────────────────────────────────── */
-const phrases = [
-  {lang:'English',    welcome:'Welcome to',         subtitle:'Where the Wild Awaits',               tagline:"We're crafting extraordinary wilderness experiences across Tanzania's most breathtaking landscapes. Our full site is on its way — stay tuned for something wild.", status:'Site Under Construction'},
-  {lang:'Français',   welcome:'Bienvenue à',         subtitle:'Là où la nature sauvage vous attend',  tagline:'Nous créons des expériences exceptionnelles au cœur des paysages les plus époustouflants de Tanzanie. Notre site complet arrive bientôt.',                   status:'Site en construction'},
-  {lang:'Español',    welcome:'Bienvenido a',        subtitle:'Donde lo salvaje te espera',           tagline:'Estamos creando experiencias extraordinarias en los paisajes más impresionantes de Tanzania. Nuestro sitio completo está en camino.',                         status:'Sitio en construcción'},
-  {lang:'Kiswahili',  welcome:'Karibu',              subtitle:'Porini Inakungoja',                    tagline:'Tunaunda uzoefu wa kipekee katika mandhari ya kuvutia zaidi ya Tanzania. Tovuti yetu kamili inakuja hivi karibuni.',                                         status:'Tovuti Inajengwa'},
-  {lang:'Русский',    welcome:'Добро пожаловать в',  subtitle:'Где дикая природа ждёт',               tagline:'Мы создаём незабываемые приключения среди самых захватывающих пейзажей Танзании. Полная версия сайта скоро появится.',                                       status:'Сайт на реконструкции'},
-  {lang:'Deutsch',    welcome:'Willkommen bei',      subtitle:'Wo die Wildnis wartet',                tagline:'Wir gestalten außergewöhnliche Wildniserlebnisse in Tansanias atemberaubendsten Landschaften. Unsere vollständige Seite kommt bald.',                        status:'Seite im Aufbau'},
-  {lang:'Italiano',   welcome:'Benvenuti a',         subtitle:'Dove la natura selvaggia vi attende',   tagline:'Stiamo creando esperienze straordinarie nei paesaggi più mozzafiato della Tanzania. Il nostro sito completo è in arrivo.',                                  status:'Sito in costruzione'},
-  {lang:'日本語',     welcome:'ようこそ',              subtitle:'野生の冒険が待っている',                tagline:'タンザニアの息をのむような大自然で、特別な体験をお届けします。完全版サイトは近日公開予定です。',                                                               status:'サイト構築中'},
-  {lang:'中文',       welcome:'欢迎来到',             subtitle:'野性在此等候',                         tagline:'我们正在坦桑尼亚最壮丽的风景中打造非凡的荒野体验。完整网站即将上线。',                                                                                       status:'网站建设中'},
-  {lang:'Português',  welcome:'Bem-vindo ao',        subtitle:'Onde a natureza selvagem espera',      tagline:'Estamos a criar experiências extraordinárias nas paisagens mais deslumbrantes da Tanzânia. O nosso site completo está a caminho.',                           status:'Site em construção'},
-  {lang:'Nederlands', welcome:'Welkom bij',          subtitle:'Waar het wild wacht',                  tagline:'Wij creëren buitengewone wildernis-ervaringen in de meest adembenemende landschappen van Tanzania. Onze volledige site komt eraan.',                         status:'Site in aanbouw'},
-  {lang:'Türkçe',     welcome:'Hoş geldiniz',        subtitle:'Vahşi doğa sizi bekliyor',             tagline:"Tanzanya'nın en nefes kesici manzaralarında olağanüstü vahşi doğa deneyimleri yaratıyoruz. Tam sitemiz yakında geliyor.",                                   status:'Site yapım aşamasında'},
-  {lang:'العربية',    welcome:'مرحباً بكم في',       subtitle:'حيث تنتظركم البرية',                   tagline:'نحن نصنع تجارب برية استثنائية عبر أروع المناظر الطبيعية في تنزانيا. موقعنا الكامل في الطريق.',                                                             status:'الموقع قيد الإنشاء'},
-  {lang:'हिन्दी',     welcome:'स्वागत है',            subtitle:'जहाँ जंगल आपका इंतज़ार करता है',     tagline:'हम तंज़ानिया के सबसे लुभावने परिदृश्यों में असाधारण वन्य अनुभव तैयार कर रहे हैं। हमारी पूरी साइट जल्द आ रही है।',                                         status:'साइट निर्माणाधीन'},
-  {lang:'한국어',     welcome:'환영합니다',            subtitle:'야생이 기다리는 곳',                    tagline:'탄자니아의 가장 아름다운 풍경에서 특별한 야생 체험을 만들고 있습니다. 전체 사이트가 곧 공개됩니다.',                                                           status:'사이트 구축 중'},
-  {lang:'Svenska',    welcome:'Välkommen till',      subtitle:'Där vildmarken väntar',                tagline:'Vi skapar extraordinära vildmarksupplevelser i Tanzanias mest hisnande landskap. Vår fullständiga webbplats är på väg.',                                     status:'Webbplats under uppbyggnad'},
-  {lang:'Polski',     welcome:'Witamy w',            subtitle:'Gdzie dzicz czeka',                    tagline:'Tworzymy niezwykłe doświadczenia na łonie natury w najbardziej zapierających dech krajobrazach Tanzanii. Nasza pełna strona już wkrótce.',                   status:'Strona w budowie'},
-  {lang:'Ελληνικά',  welcome:'Καλώς ήρθατε στο',    subtitle:'Όπου η άγρια φύση περιμένει',          tagline:'Δημιουργούμε εξαιρετικές εμπειρίες στα πιο εκπληκτικά τοπία της Τανζανίας. Η πλήρης ιστοσελίδα μας έρχεται σύντομα.',                                      status:'Ιστοσελίδα υπό κατασκευή'},
+var phrases=[
+  {flag:'\uD83C\uDDEC\uD83C\uDDE7',lang:'English',   welcome:'Welcome to',         subtitle:'Where the Wild Awaits',               tagline:"We're crafting extraordinary wilderness experiences across Tanzania's most breathtaking landscapes. Our full site is on its way \u2014 stay tuned for something wild.",status:'Site Under Construction'},
+  {flag:'\uD83C\uDDEB\uD83C\uDDF7',lang:'Fran\u00E7ais',  welcome:'Bienvenue \u00E0',         subtitle:'L\u00E0 o\u00F9 la nature sauvage vous attend',  tagline:'Nous cr\u00E9ons des exp\u00E9riences exceptionnelles au c\u0153ur des paysages les plus \u00E9poustouflants de Tanzanie. Notre site complet arrive bient\u00F4t.',                  status:'Site en construction'},
+  {flag:'\uD83C\uDDEA\uD83C\uDDF8',lang:'Espa\u00F1ol',   welcome:'Bienvenido a',        subtitle:'Donde lo salvaje te espera',           tagline:'Estamos creando experiencias extraordinarias en los paisajes m\u00E1s impresionantes de Tanzania. Nuestro sitio completo est\u00E1 en camino.',                        status:'Sitio en construcci\u00F3n'},
+  {flag:'\uD83C\uDDF9\uD83C\uDDFF',lang:'Kiswahili', welcome:'Karibu',              subtitle:'Porini Inakungoja',                    tagline:'Tunaunda uzoefu wa kipekee katika mandhari ya kuvutia zaidi ya Tanzania. Tovuti yetu kamili inakuja hivi karibuni.',                                        status:'Tovuti Inajengwa'},
+  {flag:'\uD83C\uDDF7\uD83C\uDDFA',lang:'\u0420\u0443\u0441\u0441\u043A\u0438\u0439',   welcome:'\u0414\u043E\u0431\u0440\u043E \u043F\u043E\u0436\u0430\u043B\u043E\u0432\u0430\u0442\u044C \u0432',  subtitle:'\u0413\u0434\u0435 \u0434\u0438\u043A\u0430\u044F \u043F\u0440\u0438\u0440\u043E\u0434\u0430 \u0436\u0434\u0451\u0442',               tagline:'\u041C\u044B \u0441\u043E\u0437\u0434\u0430\u0451\u043C \u043D\u0435\u0437\u0430\u0431\u044B\u0432\u0430\u0435\u043C\u044B\u0435 \u043F\u0440\u0438\u043A\u043B\u044E\u0447\u0435\u043D\u0438\u044F \u0441\u0440\u0435\u0434\u0438 \u0441\u0430\u043C\u044B\u0445 \u0437\u0430\u0445\u0432\u0430\u0442\u044B\u0432\u0430\u044E\u0449\u0438\u0445 \u043F\u0435\u0439\u0437\u0430\u0436\u0435\u0439 \u0422\u0430\u043D\u0437\u0430\u043D\u0438\u0438. \u041F\u043E\u043B\u043D\u0430\u044F \u0432\u0435\u0440\u0441\u0438\u044F \u0441\u0430\u0439\u0442\u0430 \u0441\u043A\u043E\u0440\u043E \u043F\u043E\u044F\u0432\u0438\u0442\u0441\u044F.',                                      status:'\u0421\u0430\u0439\u0442 \u043D\u0430 \u0440\u0435\u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u0438'},
+  {flag:'\uD83C\uDDE9\uD83C\uDDEA',lang:'Deutsch',   welcome:'Willkommen bei',      subtitle:'Wo die Wildnis wartet',                tagline:'Wir gestalten au\u00DFergew\u00F6hnliche Wildniserlebnisse in Tansanias atemberaubendsten Landschaften. Unsere vollst\u00E4ndige Seite kommt bald.',                       status:'Seite im Aufbau'},
+  {flag:'\uD83C\uDDEE\uD83C\uDDF9',lang:'Italiano',  welcome:'Benvenuti a',         subtitle:'Dove la natura selvaggia vi attende',   tagline:'Stiamo creando esperienze straordinarie nei paesaggi pi\u00F9 mozzafiato della Tanzania. Il nostro sito completo \u00E8 in arrivo.',                                 status:'Sito in costruzione'},
+  {flag:'\uD83C\uDDEF\uD83C\uDDF5',lang:'\u65E5\u672C\u8A9E',    welcome:'\u3088\u3046\u3053\u305D',              subtitle:'\u91CE\u751F\u306E\u5192\u967A\u304C\u5F85\u3063\u3066\u3044\u308B',                tagline:'\u30BF\u30F3\u30B6\u30CB\u30A2\u306E\u606F\u3092\u306E\u3080\u3088\u3046\u306A\u5927\u81EA\u7136\u3067\u3001\u7279\u5225\u306A\u4F53\u9A13\u3092\u304A\u5C4A\u3051\u3057\u307E\u3059\u3002\u5B8C\u5168\u7248\u30B5\u30A4\u30C8\u306F\u8FD1\u65E5\u516C\u958B\u4E88\u5B9A\u3067\u3059\u3002',                                                              status:'\u30B5\u30A4\u30C8\u69CB\u7BC9\u4E2D'},
+  {flag:'\uD83C\uDDE8\uD83C\uDDF3',lang:'\u4E2D\u6587',      welcome:'\u6B22\u8FCE\u6765\u5230',             subtitle:'\u91CE\u6027\u5728\u6B64\u7B49\u5019',                         tagline:'\u6211\u4EEC\u6B63\u5728\u5766\u6851\u5C3C\u4E9A\u6700\u58EE\u4E3D\u7684\u98CE\u666F\u4E2D\u6253\u9020\u975E\u51E1\u7684\u8352\u91CE\u4F53\u9A8C\u3002\u5B8C\u6574\u7F51\u7AD9\u5373\u5C06\u4E0A\u7EBF\u3002',                                                                                      status:'\u7F51\u7AD9\u5EFA\u8BBE\u4E2D'},
+  {flag:'\uD83C\uDDF5\uD83C\uDDF9',lang:'Portugu\u00EAs', welcome:'Bem-vindo ao',        subtitle:'Onde a natureza selvagem espera',      tagline:'Estamos a criar experi\u00EAncias extraordin\u00E1rias nas paisagens mais deslumbrantes da Tanz\u00E2nia. O nosso site completo est\u00E1 a caminho.',                          status:'Site em constru\u00E7\u00E3o'},
+  {flag:'\uD83C\uDDF3\uD83C\uDDF1',lang:'Nederlands',welcome:'Welkom bij',          subtitle:'Waar het wild wacht',                  tagline:'Wij cre\u00EBren buitengewone wildernis-ervaringen in de meest adembenemende landschappen van Tanzania. Onze volledige site komt eraan.',                        status:'Site in aanbouw'},
+  {flag:'\uD83C\uDDF9\uD83C\uDDF7',lang:'T\u00FCrk\u00E7e',   welcome:'Ho\u015F geldiniz',        subtitle:'Vahşi do\u011Fa sizi bekliyor',             tagline:"Tanzanya'n\u0131n en nefes kesici manzaralar\u0131nda ola\u011F\u00FCst\u00FC vahşi do\u011Fa deneyimleri yarat\u0131yoruz. Tam sitemiz yak\u0131nda geliyor.",                                  status:'Site yap\u0131m a\u015Famas\u0131nda'},
+  {flag:'\uD83C\uDDF8\uD83C\uDDE6',lang:'\u0627\u0644\u0639\u0631\u0628\u064A\u0629',   welcome:'\u0645\u0631\u062D\u0628\u0627\u064B \u0628\u0643\u0645 \u0641\u064A',       subtitle:'\u062D\u064A\u062B \u062A\u0646\u062A\u0638\u0631\u0643\u0645 \u0627\u0644\u0628\u0631\u064A\u0629',                   tagline:'\u0646\u062D\u0646 \u0646\u0635\u0646\u0639 \u062A\u062C\u0627\u0631\u0628 \u0628\u0631\u064A\u0629 \u0627\u0633\u062A\u062B\u0646\u0627\u0626\u064A\u0629 \u0639\u0628\u0631 \u0623\u0631\u0648\u0639 \u0627\u0644\u0645\u0646\u0627\u0638\u0631 \u0627\u0644\u0637\u0628\u064A\u0639\u064A\u0629 \u0641\u064A \u062A\u0646\u0632\u0627\u0646\u064A\u0627. \u0645\u0648\u0642\u0639\u0646\u0627 \u0627\u0644\u0643\u0627\u0645\u0644 \u0641\u064A \u0627\u0644\u0637\u0631\u064A\u0642.',                                                            status:'\u0627\u0644\u0645\u0648\u0642\u0639 \u0642\u064A\u062F \u0627\u0644\u0625\u0646\u0634\u0627\u0621'},
+  {flag:'\uD83C\uDDEE\uD83C\uDDF3',lang:'\u0939\u093F\u0928\u094D\u0926\u0940',    welcome:'\u0938\u094D\u0935\u093E\u0917\u0924 \u0939\u0948',            subtitle:'\u091C\u0939\u093E\u0901 \u091C\u0902\u0917\u0932 \u0906\u092A\u0915\u093E \u0907\u0902\u0924\u091C\u093C\u093E\u0930 \u0915\u0930\u0924\u093E \u0939\u0948',     tagline:'\u0939\u092E \u0924\u0902\u091C\u093C\u093E\u0928\u093F\u092F\u093E \u0915\u0947 \u0938\u092C\u0938\u0947 \u0932\u0941\u092D\u093E\u0935\u0928\u0947 \u092A\u0930\u093F\u0926\u0943\u0936\u094D\u092F\u094B\u0902 \u092E\u0947\u0902 \u0905\u0938\u093E\u0927\u093E\u0930\u0923 \u0935\u0928\u094D\u092F \u0905\u0928\u0941\u092D\u0935 \u0924\u0948\u092F\u093E\u0930 \u0915\u0930 \u0930\u0939\u0947 \u0939\u0948\u0902\u0964 \u0939\u092E\u093E\u0930\u0940 \u092A\u0942\u0930\u0940 \u0938\u093E\u0907\u091F \u091C\u0932\u094D\u0926 \u0906 \u0930\u0939\u0940 \u0939\u0948\u0964',                                        status:'\u0938\u093E\u0907\u091F \u0928\u093F\u0930\u094D\u092E\u093E\u0923\u093E\u0927\u0940\u0928'},
+  {flag:'\uD83C\uDDF0\uD83C\uDDF7',lang:'\uD55C\uAD6D\uC5B4',    welcome:'\uD658\uC601\uD569\uB2C8\uB2E4',            subtitle:'\uC57C\uC0DD\uC774 \uAE30\uB2E4\uB9AC\uB294 \uACF3',                    tagline:'\uD0C4\uC790\uB2C8\uC544\uC758 \uAC00\uC7A5 \uC544\uB984\uB2E4\uC6B4 \uD48D\uACBD\uC5D0\uC11C \uD2B9\uBCC4\uD55C \uC57C\uC0DD \uCCB4\uD5D8\uC744 \uB9CC\uB4E4\uACE0 \uC788\uC2B5\uB2C8\uB2E4. \uC804\uCCB4 \uC0AC\uC774\uD2B8\uAC00 \uACE7 \uACF5\uAC1C\uB429\uB2C8\uB2E4.',                                                          status:'\uC0AC\uC774\uD2B8 \uAD6C\uCD95 \uC911'},
+  {flag:'\uD83C\uDDF8\uD83C\uDDEA',lang:'Svenska',   welcome:'V\u00E4lkommen till',      subtitle:'D\u00E4r vildmarken v\u00E4ntar',                tagline:'Vi skapar extraordin\u00E4ra vildmarksupplevelser i Tanzanias mest hisnande landskap. V\u00E5r fullst\u00E4ndiga webbplats \u00E4r p\u00E5 v\u00E4g.',                                    status:'Webbplats under uppbyggnad'},
+  {flag:'\uD83C\uDDF5\uD83C\uDDF1',lang:'Polski',    welcome:'Witamy w',            subtitle:'Gdzie dzicz czeka',                    tagline:'Tworzymy niezwyk\u0142e do\u015Bwiadczenia na \u0142onie natury w najbardziej zapieraj\u0105cych dech krajobrazach Tanzanii. Nasza pe\u0142na strona ju\u017C wkr\u00F3tce.',                  status:'Strona w budowie'},
+  {flag:'\uD83C\uDDEC\uD83C\uDDF7',lang:'\u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC', welcome:'\u039A\u03B1\u03BB\u03CE\u03C2 \u03AE\u03C1\u03B8\u03B1\u03C4\u03B5 \u03C3\u03C4\u03BF',    subtitle:'\u038C\u03C0\u03BF\u03C5 \u03B7 \u03AC\u03B3\u03C1\u03B9\u03B1 \u03C6\u03CD\u03C3\u03B7 \u03C0\u03B5\u03C1\u03B9\u03BC\u03AD\u03BD\u03B5\u03B9',          tagline:'\u0394\u03B7\u03BC\u03B9\u03BF\u03C5\u03C1\u03B3\u03BF\u03CD\u03BC\u03B5 \u03B5\u03BE\u03B1\u03B9\u03C1\u03B5\u03C4\u03B9\u03BA\u03AD\u03C2 \u03B5\u03BC\u03C0\u03B5\u03B9\u03C1\u03AF\u03B5\u03C2 \u03C3\u03C4\u03B1 \u03C0\u03B9\u03BF \u03B5\u03BA\u03C0\u03BB\u03B7\u03BA\u03C4\u03B9\u03BA\u03AC \u03C4\u03BF\u03C0\u03AF\u03B1 \u03C4\u03B7\u03C2 \u03A4\u03B1\u03BD\u03B6\u03B1\u03BD\u03AF\u03B1\u03C2. \u0397 \u03C0\u03BB\u03AE\u03C1\u03B7\u03C2 \u03B9\u03C3\u03C4\u03BF\u03C3\u03B5\u03BB\u03AF\u03B4\u03B1 \u03BC\u03B1\u03C2 \u03AD\u03C1\u03C7\u03B5\u03C4\u03B1\u03B9 \u03C3\u03CD\u03BD\u03C4\u03BF\u03BC\u03B1.',                                     status:'\u0399\u03C3\u03C4\u03BF\u03C3\u03B5\u03BB\u03AF\u03B4\u03B1 \u03C5\u03C0\u03CC \u03BA\u03B1\u03C4\u03B1\u03C3\u03BA\u03B5\u03C5\u03AE'}
 ];
 
-let idx = 0;
-const welEl    = document.getElementById('welcomeText');
-const subEl    = document.getElementById('subtitleText');
-const tagEl    = document.getElementById('taglineText');
-const staEl    = document.getElementById('statusText');
-const lngEl    = document.getElementById('langLabel');
-const cycleEls = [lngEl, welEl, subEl, tagEl, staEl];
+var idx=0;
+var welEl=document.getElementById('welcomeText');
+var subEl=document.getElementById('subtitleText');
+var tagEl=document.getElementById('taglineText');
+var staEl=document.getElementById('statusText');
+var flagEl=document.getElementById('langFlag');
+var nameEl=document.getElementById('langName');
+var lngEl=document.getElementById('langLabel');
+var cycleEls=[lngEl,welEl,tagEl,staEl];
 
-setInterval(() => {
-  cycleEls.forEach((el, i) =>
-    setTimeout(() => el.classList.add('fade-out'), i * 80)
-  );
-  setTimeout(() => {
-    idx = (idx + 1) % phrases.length;
-    lngEl.textContent = phrases[idx].lang;
-    welEl.textContent = phrases[idx].welcome;
-    subEl.textContent = phrases[idx].subtitle;
-    tagEl.textContent = phrases[idx].tagline;
-    staEl.textContent = phrases[idx].status;
-    cycleEls.forEach((el, i) =>
-      setTimeout(() => el.classList.remove('fade-out'), i * 80)
-    );
-  }, 800);
-}, 7000);
+typewriter(subEl,phrases[0].subtitle);
+
+setInterval(function(){
+  cycleEls.forEach(function(el,i){setTimeout(function(){el.classList.add('fade-out');},i*80);});
+  subEl.classList.add('fade-out');
+  setTimeout(function(){
+    idx=(idx+1)%phrases.length;
+    flagEl.textContent=phrases[idx].flag;
+    nameEl.textContent=phrases[idx].lang;
+    welEl.textContent=phrases[idx].welcome;
+    subEl.textContent='';
+    tagEl.textContent=phrases[idx].tagline;
+    staEl.textContent=phrases[idx].status;
+    cycleEls.forEach(function(el,i){setTimeout(function(){el.classList.remove('fade-out');},i*80);});
+    subEl.classList.remove('fade-out');
+    setTimeout(function(){typewriter(subEl,phrases[idx].subtitle);},180);
+  },800);
+},7000);
 </script>
 </body>
 </html>
